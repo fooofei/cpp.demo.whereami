@@ -1,4 +1,4 @@
-# whereami
+# whereami [![Build Status](https://travis-ci.org/fooofei/whereami.svg?branch=master)](https://travis-ci.org/fooofei/whereami)
 
 If executable load the library.
 
