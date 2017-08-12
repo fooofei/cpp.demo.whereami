@@ -7,6 +7,13 @@ addons:
     packages:
       - cmake-data
       - cmake
-      
+notifications:
+  webhooks:
+    urls:
+      - https://travis-ci.org/fooofei/cpp_cross_platform_encoding/master
+
+
 # command to run tests
-script: sh run.sh
+script: 
+  - git clone git@github.com:fooofei/cpp_cross_platform_encoding.git
+  - sh run.sh
