@@ -246,14 +246,14 @@ int get_library_fullpath_utf8(std::string * out)
 }
 
 
-int get_library_fullpath(std::wstring * out);
-int get_executable_fullpath(std::wstring * out);
+// int get_library_fullpath(std::wstring * out);
+// int get_executable_fullpath(std::wstring * out);
 
 #endif // __APPLE__
 
 
 #ifndef WIN32
-#include "../encoding/encoding_std.h"
+#include "encoding/encoding_std.h"
 int get_library_fullpath(std::wstring * out)
 {
     std::string s;

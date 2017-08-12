@@ -78,11 +78,11 @@ int main()
 
 
 #ifdef __linux__
-    handle = dlopen("../library/libwhereami.so", RTLD_NOW);
+    handle = dlopen("libwhereami.so", RTLD_NOW);
 #elif defined(__APPLE__)
-    handle = dlopen("../library/libwhereami.dylib", RTLD_NOW);
+    handle = dlopen("libwhereami.dylib", RTLD_NOW);
 #elif defined (WIN32)
-    handle = dlopen("../library/whereami.dll", RTLD_NOW);
+    handle = dlopen("whereami.dll", RTLD_NOW);
 #endif
     if (handle)
     {
@@ -93,6 +93,7 @@ int main()
         }
         else {
             printf("executable->false dlsym\n");
+            err = -1;
         }
 
         dlclose(handle);
@@ -100,7 +101,8 @@ int main()
     else
     {
         printf("executable->false dlopen\n");
+        err = -1;
     }
 
-    return 0;
+    return err;
 }
