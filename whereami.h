@@ -30,4 +30,8 @@ enum
 int get_library_fullpath(std::wstring *out);
 int get_executable_fullpath(std::wstring *out);
 
+/* string is utf-8 encoding */
+int get_library_fullpath(std::string * );
+int get_executable_fullpath(std::string * );
+
 #endif //WHERE_AM_I_H

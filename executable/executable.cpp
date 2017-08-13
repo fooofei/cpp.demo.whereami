@@ -54,6 +54,7 @@ int main()
 
     int err;
     std::wstring s1;
+    std::string s2;
     void *handle;
 
     err = get_executable_fullpath(&s1);
@@ -62,11 +63,27 @@ int main()
     s1.append(L"\n");
     print_chs_w(s1);
 
+    // test utf-8 print
+    err = get_executable_fullpath(&s2);
+    printf("executable->get_executable_fullpath() return:%d, addr:%p, size:%zu\n", err, s2.c_str(), s2.size());
+    s2.append("\n");
+    print_chs(s2);
+
+    printf("\n");
+
     s1.clear();
     err = get_library_fullpath(&s1);
     printf("executable->get_library_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
     print_chs_w(s1);
+
+    s2.clear();
+    err = get_library_fullpath(&s2);
+    printf("executable->get_library_fullpath() return:%d, addr:%p, size:%zu\n", err, s2.c_str(), s2.size());
+    s2.append("\n");
+    print_chs(s2);
+
+    printf("\n");
 
 #ifdef __linux__
     handle = dlopen("libwhereami.so", RTLD_NOW);

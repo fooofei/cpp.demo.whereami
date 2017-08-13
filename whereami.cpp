@@ -1,10 +1,11 @@
 
 
+#include "encoding/encoding_std.h"
+#include "whereami.h"
+
 #ifdef WIN32
 
 #include <windows.h>
-#include "whereami.h"
-
 /* Used on MS_Windows*/
 
 static int _get_module_fullpath(HMODULE m, std::wstring *out)
@@ -48,6 +49,39 @@ int get_executable_fullpath(std::wstring *out)
     return _get_module_fullpath(NULL, out);
 }
 
+int get_library_fullpath(std::string *out)
+{
+    if (!out)
+        return ERROR_FAIL;
+    HRESULT hr;
+    std::wstring ws;
+    int err;
+
+    err = get_library_fullpath(&ws);
+    if (er != ERROR_NOERROR)
+        return er;
+    hr = wstring_2_utf8(ws, *out);
+    if (FAILED(hr))
+        return ERROR_FAIL;
+    return ERROR_NOERROR;
+}
+int get_executable_fullpath(std::string *out)
+{
+    if (!out)
+        return ERROR_FAIL;
+    HRESULT hr;
+    std::wstring ws;
+    int err;
+
+    err = get_executable_fullpath(&ws);
+    if (er != ERROR_NOERROR)
+        return er;
+    hr = wstring_2_utf8(ws, *out);
+    if (FAILED(hr))
+        return ERROR_FAIL;
+    return ERROR_NOERROR;
+}
+
 #endif //WIN32
 
 #ifdef __linux__
@@ -57,7 +91,6 @@ int get_executable_fullpath(std::wstring *out)
 #include <stdint.h>
 #include <stdio.h>
 #include <inttypes.h>
-#include "whereami.h"
 
 static unsigned get_path_max_size()
 {
@@ -177,8 +210,6 @@ static int get_library_fullpath_utf8(std::string *out)
 #include <stdlib.h>
 #include <dlfcn.h>
 
-#include "whereami.h"
-
 static int get_executable_fullpath_utf8(std::string *out)
 {
     std::string s;
@@ -243,7 +274,17 @@ static int get_library_fullpath_utf8(std::string *out)
 #endif // __APPLE__
 
 #ifndef WIN32
-#include "encoding/encoding_std.h"
+
+int get_library_fullpath(std::string *out)
+{
+    return get_library_fullpath_utf8(out);
+}
+
+int get_executable_fullpath(std::string *out)
+{
+    return get_executable_fullpath_utf8(out);
+}
+
 int get_library_fullpath(std::wstring *out)
 {
     std::string s;
