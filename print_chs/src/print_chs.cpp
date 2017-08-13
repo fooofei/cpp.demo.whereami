@@ -33,7 +33,8 @@ int print_chs_w(const wchar_t *format, ...)
     ret = vswprintf(&s[0], s.size(), format, args);
     va_end(args);
 
-    if (ret>0){
+    if (ret > 0)
+    {
         return print_chs_w(s.c_str(), wcslen(s.c_str()));
     }
     return ret;

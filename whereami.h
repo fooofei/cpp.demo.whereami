@@ -19,15 +19,15 @@ stackoverflow:
 
 */
 
-enum {
+enum
+{
     ERROR_FAIL = -1,
     ERROR_NOERROR = 0,
     ERROR_NOIMPL = 1,
 
 };
 
-int get_library_fullpath(std::wstring * out);
-int get_executable_fullpath(std::wstring * out);
-
+int get_library_fullpath(std::wstring *out);
+int get_executable_fullpath(std::wstring *out);
 
 #endif //WHERE_AM_I_H

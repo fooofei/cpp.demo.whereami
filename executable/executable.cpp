@@ -5,7 +5,6 @@
 #include "../whereami.h"
 #include "print_chs/print_chs.h"
 
-
 #if defined(_WIN32)
 
 #define WIN32_LEAN_AND_MEAN
@@ -19,8 +18,7 @@
 
 #include "encoding/encoding_std.h"
 
-static 
-void* dlopen(const char * name, int mode)
+static void *dlopen(const char *name, int mode)
 {
     if (name)
     {
@@ -29,20 +27,17 @@ void* dlopen(const char * name, int mode)
 
         utf8_2_wstring(s, ws);
 
-        return (void*)LoadLibraryW(ws.c_str());
-
+        return (void *)LoadLibraryW(ws.c_str());
     }
     return NULL;
 }
 
-static 
-int dlclose(void * handle)
+static int dlclose(void *handle)
 {
     return FreeLibrary((HMODULE)handle) ? 0 : -1;
 }
 
-static
-FARPROC dlsym(void * handle, const char * symbol)
+static FARPROC dlsym(void *handle, const char *symbol)
 {
     return GetProcAddress((HMODULE)handle, symbol);
 }
@@ -52,41 +47,32 @@ FARPROC dlsym(void * handle, const char * symbol)
 #define WINAPI
 #endif // WIN32
 
-
-
-
-typedef int (WINAPI * PFNrun)(void);
+typedef int(WINAPI *PFNrun)(void);
 
 int main()
 {
 
     int err;
     std::wstring s1;
-    void * handle;
-
+    void *handle;
 
     err = get_executable_fullpath(&s1);
 
-    printf("executable->get_executable_fullpath() return:%d, addr:%p, size:%zu\n"
-    ,err,s1.c_str(), s1.size());
+    printf("executable->get_executable_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
     print_chs_w(s1);
-
 
     s1.clear();
     err = get_library_fullpath(&s1);
-    printf("executable->get_library_fullpath() return:%d, addr:%p, size:%zu\n"
-    ,err,s1.c_str(), s1.size());
+    printf("executable->get_library_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
     print_chs_w(s1);
-
-
 
 #ifdef __linux__
     handle = dlopen("libwhereami.so", RTLD_NOW);
 #elif defined(__APPLE__)
     handle = dlopen("libwhereami.dylib", RTLD_NOW);
-#elif defined (WIN32)
+#elif defined(WIN32)
     handle = dlopen("whereami.dll", RTLD_NOW);
 #endif
     if (handle)
@@ -96,7 +82,8 @@ int main()
         {
             fn();
         }
-        else {
+        else
+        {
             printf("executable->false dlsym\n");
             err = -1;
         }
