@@ -3,6 +3,7 @@
 
 # If fail then exit
 # Go library
+rm -rf bin
 mkdir bin
 cd library
 rm -rf build

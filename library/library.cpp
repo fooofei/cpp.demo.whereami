@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include "../whereami.h"
-#include "../print_chs.h"
+#include "print_chs/print_chs.h"
 
 
 #ifdef WIN32
@@ -42,13 +42,17 @@ WINAPI run(void)
 
     err = get_executable_fullpath(&s1);
 
-    printf("library->get_executable_fullpath() return:%d\n",err);
+    printf("library->get_executable_fullpath() return:%d, addr:%p, size:%zu\n"
+    ,err,s1.c_str(), s1.size());
+    s1.append(L"\n");
     print_chs_w(s1);
 
 
     s1.clear();
     err = get_library_fullpath(&s1);
-    printf("library->get_library_fullpath() return:%d\n",err);
+    printf("library->get_library_fullpath() return:%d, addr:%p, size:%zu\n"
+    ,err,s1.c_str(), s1.size());
+    s1.append(L"\n");
     print_chs_w(s1);
 
 

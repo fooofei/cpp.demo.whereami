@@ -3,7 +3,7 @@
 #include <string>
 
 #include "../whereami.h"
-#include "../print_chs.h"
+#include "print_chs/print_chs.h"
 
 
 #if defined(_WIN32)
@@ -17,7 +17,7 @@
 #define RTLD_GLOBAL 4
 #define RTLD_LOCAL 8
 
-#include "../../encoding/encoding_std.h"
+#include "encoding/encoding_std.h"
 
 static 
 void* dlopen(const char * name, int mode)
@@ -67,14 +67,19 @@ int main()
 
     err = get_executable_fullpath(&s1);
 
-    printf("executable->get_executable_fullpath() return:%d\n",err);
+    printf("executable->get_executable_fullpath() return:%d, addr:%p, size:%zu\n"
+    ,err,s1.c_str(), s1.size());
+    s1.append(L"\n");
     print_chs_w(s1);
 
 
     s1.clear();
     err = get_library_fullpath(&s1);
-    printf("executable->get_library_fullpath() return:%d\n",err);
+    printf("executable->get_library_fullpath() return:%d, addr:%p, size:%zu\n"
+    ,err,s1.c_str(), s1.size());
+    s1.append(L"\n");
     print_chs_w(s1);
+
 
 
 #ifdef __linux__

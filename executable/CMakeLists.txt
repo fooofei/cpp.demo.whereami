@@ -15,6 +15,8 @@ endif ()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../cpp_cross_platform_encoding build_encoding)
 target_link_libraries(${PROJECT_NAME} encoding)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../print_chs build_print_chs)
+target_link_libraries(${PROJECT_NAME} print_chs)
 
 if (NOT WIN32)
 	# for dlopen
