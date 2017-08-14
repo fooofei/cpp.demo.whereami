@@ -47,7 +47,7 @@ static FARPROC dlsym(void *handle, const char *symbol)
 #define WINAPI
 #endif // WIN32
 
-typedef int(WINAPI *PFNrun)(void);
+typedef int(*PFNrun)(void);
 
 int main()
 {
@@ -57,7 +57,7 @@ int main()
     std::string s2;
     void *handle;
 
-    err = get_executable_fullpath(&s1);
+    err = get_executable_fullpath_w(&s1);
 
     printf("executable->get_executable_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
@@ -72,7 +72,7 @@ int main()
     printf("\n");
 
     s1.clear();
-    err = get_library_fullpath(&s1);
+    err = get_library_fullpath_w(&s1);
     printf("executable->get_library_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
     print_chs_w(s1);
@@ -86,9 +86,9 @@ int main()
     printf("\n");
 
 #ifdef __linux__
-    handle = dlopen("libwhereami.so", RTLD_NOW);
+    handle = dlopen("./libwhereami.so", RTLD_NOW);
 #elif defined(__APPLE__)
-    handle = dlopen("libwhereami.dylib", RTLD_NOW);
+    handle = dlopen("./libwhereami.dylib", RTLD_NOW);
 #elif defined(WIN32)
     handle = dlopen("whereami.dll", RTLD_NOW);
 #endif

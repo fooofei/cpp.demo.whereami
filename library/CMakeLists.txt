@@ -15,11 +15,16 @@ endif()
 
 # 第二个参数设置上级目录 ${CMAKE_HOME_DIRECTORY}/build_encoding 总是不好
 # error : make[1]: *** No rule to make target '../build_encoding/CMakeFiles/encoding.dir/all'
+if (NOT TARGET encoding)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../cpp_cross_platform_encoding  build_encoding)
+endif ()
 target_link_libraries(${PROJECT_NAME} encoding)
 
+if (NOT TARGET print_chs)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../print_chs build_print_chs)
+endif ()
 target_link_libraries(${PROJECT_NAME} print_chs)
+
 
 add_custom_command(TARGET ${PROJECT_NAME}
         POST_BUILD

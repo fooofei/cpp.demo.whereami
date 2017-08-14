@@ -8,43 +8,49 @@
 
 #ifdef WIN32
 #include <windows.h>
+#ifndef WINAPI
 // #define WINAPI __stdcall // even extern "C" cannot resolve name mangling
 #define WINAPI
+#endif // WINAPI
+
 #define CPP_EXPORT __declspec(dllexport)
 #define GNUC_DLL_LOAD
 #else
+#ifndef WINAPI
 #define WINAPI
+#endif // WINAPI
 #define CPP_EXPORT __attribute__((visibility("default")))
 #define GNUC_DLL_LOAD __attribute__((constructor))
 #endif
 
+
 /*
-测试的时候有个小 bug ：
- executable 和 library 都使用了 whereami.cpp ，都 link 了进去，
- 运行和调试发现 library 里使用的是 executable 中 link 的 get_library_fullpath 
- 导致获取的 fullpath 总是 executable 的，不符合预期。
- 
- 解决方案：
-  给 executable/library 任一加编译选项 
-  #target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden)
-  即可。
+Found a bug on posix:
+When `executable` and `library` all linked `whereami.cpp`,
+at the runtime and debug, `executable` and `library` 's get_library_fullpath() symbol 
+all from `executable`, so the get_library_fullpath() in the `library` is get the 
+`executable`'s fullpath, it's not right.
+
+To fix this, add compile option to executable/library, any of two is ok.
+#target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden)
+
 */
 
+
 extern "C" CPP_EXPORT int
-    WINAPI
     run(void)
 {
     int err;
     std::wstring s1;
 
-    err = get_executable_fullpath(&s1);
+    err = get_executable_fullpath_w(&s1);
 
     printf("library->get_executable_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
     print_chs_w(s1);
 
     s1.clear();
-    err = get_library_fullpath(&s1);
+    err = get_library_fullpath_w(&s1);
     printf("library->get_library_fullpath() return:%d, addr:%p, size:%zu\n", err, s1.c_str(), s1.size());
     s1.append(L"\n");
     print_chs_w(s1);
@@ -55,7 +61,7 @@ extern "C" CPP_EXPORT int
 /*
     Function pointer type.
 */
-typedef int(WINAPI *PFNrun)(void);
+typedef int( *PFNrun)(void);
 
 GNUC_DLL_LOAD
 static int load()

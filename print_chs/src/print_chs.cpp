@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include "../include/print_chs/print_chs.h"
+#include "encoding/encoding_std.h"
 
 int print_chs_w(const wchar_t *ptr, size_t size)
 {
@@ -42,9 +43,6 @@ int print_chs_w(const wchar_t *format, ...)
     return ret;
 }
 
-//
-// !!! NOT TEST
-
 int print_chs(const char *format, ...)
 {
     std::string s;
@@ -64,16 +62,31 @@ int print_chs(const char *format, ...)
 }
 int print_chs(const char *ptr, size_t size)
 {
-    //#ifdef WIN32
-    //const char *local = "chs";
-    //#else
+    /*
+    try on Windows:
+    _setmode(_fileno(stdout), _O_U8TEXT); // crash, debug assert
+    SetConsoleOutputCP(CP_UTF8); // not work
+    
+    have not found the way to print utf-8 bytes string on Windows.
+
+    */
+    
+#ifdef WIN32
+    std::string s(ptr, size);
+    std::wstring ws;
+    HRESULT hr;
+
+    hr = utf8_2_wstring(s, ws);
+    if (FAILED(hr)) return -1;
+    return print_chs_w(ws);
+#else
     const char *local = "zh_CN.UTF-8";
-    //#endif
     char *restore = setlocale(LC_ALL, local);
-    // printf("[addr:0x%p - size:%u]value:(%.*ls)\n",(const void*)ptr,size,p_size,ptr);
     printf("%.*s", (int)size, ptr);
     setlocale(LC_ALL, restore);
     return size;
+#endif // !WIN32
+
 }
 int print_chs(const std::string &s)
 {

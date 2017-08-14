@@ -33,7 +33,7 @@ static int _get_module_fullpath(HMODULE m, std::wstring *out)
     return ERROR_NOERROR;
 }
 
-int get_library_fullpath(std::wstring *out)
+int get_library_fullpath_w(std::wstring *out)
 {
     HMODULE m = NULL;
     BOOL b = GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCTSTR)get_library_fullpath, &m);
@@ -44,7 +44,7 @@ int get_library_fullpath(std::wstring *out)
 
     return _get_module_fullpath(m, out);
 }
-int get_executable_fullpath(std::wstring *out)
+int get_executable_fullpath_w(std::wstring *out)
 {
     return _get_module_fullpath(NULL, out);
 }
@@ -57,9 +57,9 @@ int get_library_fullpath(std::string *out)
     std::wstring ws;
     int err;
 
-    err = get_library_fullpath(&ws);
-    if (er != ERROR_NOERROR)
-        return er;
+    err = get_library_fullpath_w(&ws);
+    if (err != ERROR_NOERROR)
+        return err;
     hr = wstring_2_utf8(ws, *out);
     if (FAILED(hr))
         return ERROR_FAIL;
@@ -73,9 +73,9 @@ int get_executable_fullpath(std::string *out)
     std::wstring ws;
     int err;
 
-    err = get_executable_fullpath(&ws);
-    if (er != ERROR_NOERROR)
-        return er;
+    err = get_executable_fullpath_w(&ws);
+    if (err != ERROR_NOERROR)
+        return err;
     hr = wstring_2_utf8(ws, *out);
     if (FAILED(hr))
         return ERROR_FAIL;
@@ -285,7 +285,7 @@ int get_executable_fullpath(std::string *out)
     return get_executable_fullpath_utf8(out);
 }
 
-int get_library_fullpath(std::wstring *out)
+int get_library_fullpath_w(std::wstring *out)
 {
     std::string s;
     int err;
@@ -306,7 +306,7 @@ int get_library_fullpath(std::wstring *out)
     return ERROR_NOERROR;
 }
 
-int get_executable_fullpath(std::wstring *out)
+int get_executable_fullpath_w(std::wstring *out)
 {
     std::string s;
     int err;
