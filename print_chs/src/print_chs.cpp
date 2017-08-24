@@ -1,8 +1,12 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+
+#ifdef WIN32
+#include <Windows.h>
+#endif
+
 #include "../include/print_chs/print_chs.h"
-#include "encoding/encoding_std.h"
 
 int print_chs_w(const wchar_t *ptr, size_t size)
 {
@@ -72,13 +76,25 @@ int print_chs(const char *ptr, size_t size)
     */
     
 #ifdef WIN32
-    std::string s(ptr, size);
-    std::wstring ws;
-    HRESULT hr;
+    // found a way to print utf-8 bytes on Windows.
+    // !!! Do not use printf, it cannot.
+    UINT __cp;
+    BOOL r;
+    DWORD written;
+    static HANDLE __std_out_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    hr = utf8_2_wstring(s, ws);
-    if (FAILED(hr)) return -1;
-    return print_chs_w(ws);
+    fflush(stdout);
+    __cp = GetConsoleOutputCP();
+    // This function have side effect, it will change the console's size.
+    r = SetConsoleOutputCP(CP_UTF8);
+    if (r != TRUE) return -1;
+    // WriteConsoleA() cannot use redirect to file(">").
+    //r = WriteConsoleA(__std_out_handle, ptr, size, &written, NULL);
+    r = WriteFile(__std_out_handle, ptr, size, &written, NULL);
+    SetConsoleOutputCP(__cp);
+    if (r == TRUE) return size;
+    else return -1;
+
 #else
     const char *local = "zh_CN.UTF-8";
     char *restore = setlocale(LC_ALL, local);

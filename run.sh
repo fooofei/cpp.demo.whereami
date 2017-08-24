@@ -3,27 +3,31 @@
 
 # If fail then exit
 # Go library
-rm -rf bin
-mkdir bin
+
+dir_bin=bin_linux
+dir_build=build_linux
+
+rm -rf $dir_bin
+mkdir $dir_bin
 cd library
-rm -rf build
-mkdir build
-cd build
+rm -rf $dir_build
+mkdir $dir_build
+cd $dir_build
 cmake -DCMAKE_BUILD_TYPE=Release  .. || exit 1
 make  || exit 1
 cd ..
-rm -rf build
+rm -rf $dir_build
 
 
 cd ..
 cd executable
-rm -rf build
-mkdir build
-cd build
+rm -rf $dir_build
+mkdir $dir_build
+cd $dir_build
 cmake -DCMAKE_BUILD_TYPE=Release  .. || exit 1
 make  || exit 1
 cd ..
-rm -rf build
+rm -rf $dir_build
 cd ..
-cd bin
+cd $dir_bin
 ./call || exit 1
