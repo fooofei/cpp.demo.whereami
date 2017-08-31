@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(whereami)
+project(whereamitestlib)
 
 if (APPLE)
     set(CMAKE_MACOSX_RPATH 0)
@@ -7,7 +7,6 @@ endif ()
 
 
 add_library(${PROJECT_NAME} SHARED library.cpp)
-target_sources(${PROJECT_NAME} PRIVATE ../whereami.cpp)
 
 if (NOT WIN32)
     target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden)
@@ -25,6 +24,10 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../print_chs build_print_chs)
 endif ()
 target_link_libraries(${PROJECT_NAME} print_chs)
 
+if (NOT TARGET whereami)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../whereami build_whereami)
+endif ()
+target_link_libraries(${PROJECT_NAME} whereami)
 
 add_custom_command(TARGET ${PROJECT_NAME}
         POST_BUILD

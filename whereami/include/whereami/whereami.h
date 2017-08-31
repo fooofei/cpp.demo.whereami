@@ -1,7 +1,6 @@
 #ifndef WHERE_AM_I_H
 #define WHERE_AM_I_H
 
-#include <string.h>
 #include <string>
 
 /*

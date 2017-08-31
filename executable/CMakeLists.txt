@@ -6,7 +6,6 @@ if (APPLE)
 endif ()
 
 add_executable(${PROJECT_NAME} executable.cpp)
-target_sources(${PROJECT_NAME} PRIVATE ../whereami.cpp)
 
 if (NOT WIN32)
     target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden)
@@ -22,6 +21,11 @@ if (NOT TARGET print_chs)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../print_chs build_print_chs)
 endif ()
 target_link_libraries(${PROJECT_NAME} print_chs)
+
+if (NOT TARGET whereami)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../whereami build_whereami)
+endif ()
+target_link_libraries(${PROJECT_NAME} whereami)
 
 if (NOT WIN32)
 	# for dlopen

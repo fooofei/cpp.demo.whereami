@@ -1,7 +1,7 @@
 
 
 #include "encoding/encoding_std.h"
-#include "whereami.h"
+#include "../include/whereami/whereami.h"
 
 #ifdef WIN32
 

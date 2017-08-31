@@ -3,7 +3,7 @@
 #include <string>
 #include <stdint.h>
 
-#include "../whereami.h"
+#include "whereami/whereami.h"
 #include "print_chs/print_chs.h"
 
 #ifdef WIN32

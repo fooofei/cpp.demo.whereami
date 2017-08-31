@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string>
 
-#include "../whereami.h"
+#include "whereami/whereami.h"
 #include "print_chs/print_chs.h"
 
 #if defined(_WIN32)
@@ -86,11 +86,11 @@ int main()
     printf("\n");
 
 #ifdef __linux__
-    handle = dlopen("./libwhereami.so", RTLD_NOW);
+    handle = dlopen("./libwhereamitestlib.so", RTLD_NOW);
 #elif defined(__APPLE__)
-    handle = dlopen("./libwhereami.dylib", RTLD_NOW);
+    handle = dlopen("./libwhereamitestlib.dylib", RTLD_NOW);
 #elif defined(WIN32)
-    handle = dlopen("whereami.dll", RTLD_NOW);
+    handle = dlopen("whereamitestlib.dll", RTLD_NOW);
 #endif
     if (handle)
     {
