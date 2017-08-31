@@ -4,7 +4,7 @@
 # If fail then exit
 # Go library
 
-dir_bin=bin_linux
+dir_bin=bin
 dir_build=build_linux
 
 rm -rf $dir_bin
