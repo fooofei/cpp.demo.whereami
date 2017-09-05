@@ -34,7 +34,9 @@ endif ()
 # point to this CMakeLists.txt
 #message(STATUS "CMAKE_CURRENT_LIST_DIR=" ${CMAKE_CURRENT_LIST_DIR})
 
-add_library(${PROJECT_NAME} STATIC ${CMAKE_CURRENT_SOURCE_DIR}/src/whereami.cpp)
+add_library(${PROJECT_NAME} STATIC ${CMAKE_CURRENT_SOURCE_DIR}/src/whereami.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/whereami/whereami.h
+)
 
 if (NOT TARGET encoding)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../cpp_cross_platform_encoding  build_encoding)
