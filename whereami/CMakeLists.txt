@@ -1,4 +1,4 @@
-# This CMakeLists.txt is for encoding module.
+# This CMakeLists.txt is for whereami module.
 # Other Module can use it by this:
 #
 # if (NOT TARGET encoding)
