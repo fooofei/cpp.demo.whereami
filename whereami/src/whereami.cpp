@@ -3,6 +3,8 @@
 #include "encoding/encoding_std.h"
 #include "../include/whereami/whereami.h"
 
+#include <cstring>
+
 #ifdef WIN32
 
 #include <windows.h>
@@ -169,7 +171,7 @@ static int get_library_fullpath_utf8(std::string *out)
   {
     for (; !feof(fmaps);)
     {
-      memset(line, 0, sizeof(line));
+      std::memset(line, 0, sizeof(line));
       p = fgets(line, sizeof(line), fmaps);
 
       if (p)
