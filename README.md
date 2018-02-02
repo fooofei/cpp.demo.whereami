@@ -1,4 +1,4 @@
-# whereami [![Build Status](https://travis-ci.org/fooofei/whereami.svg?branch=master)](https://travis-ci.org/fooofei/whereami)
+# whereami [![Build Status](https://travis-ci.org/fooofei/cpp_whereami.svg?branch=master)](https://travis-ci.org/fooofei/cpp_whereami)
 
 If executable load the library.
 

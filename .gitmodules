@@ -1,0 +1,3 @@
+[submodule "cpp_cross_platform_encoding"]
+	path = cpp_cross_platform_encoding
+	url = https://github.com/fooofei/cpp_cross_platform_encoding.git

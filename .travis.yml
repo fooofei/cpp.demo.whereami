@@ -15,5 +15,5 @@ notifications:
 
 # command to run tests
 script: 
-  - git clone git@github.com:fooofei/cpp_cross_platform_encoding.git
+  #- git clone git@github.com:fooofei/cpp_cross_platform_encoding.git
   - sh run.sh
